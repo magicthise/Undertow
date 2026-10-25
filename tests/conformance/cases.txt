@@ -1,0 +1,77 @@
+# Conformance cases. Each one runs through real Tidal (tools/tidal-oracle)
+# and through Undertow, querying cycles 0 to `cycles`, and the events must
+# match. After changing this file, rerun tools/tidal-oracle/generate.py.
+#
+# Format: id cycles kind source
+#   mini  source is mini-notation, read as a Tidal string pattern
+#   note  source is mini-notation, read as a Tidal note pattern
+#   expr  source is Tidal code; tests/test_conformance.cpp holds the matching
+#         Undertow code until the interpreter can read Tidal code itself
+
+mini/single 2 mini a
+mini/sequence 1 mini a b c
+mini/rest 1 mini a ~ b ~
+mini/group 1 mini a [b c]
+mini/nested 1 mini a [b [c d]]
+mini/layers 1 mini [a b, c d e]
+mini/top-layers 1 mini a b, c
+mini/alternate 4 mini <a b c>
+mini/alternate-nested 4 mini <a <b c>>
+mini/alternate-group 3 mini a <b [c d]>
+mini/alternate-layers 3 mini <a b, c d e>
+mini/alternate-weight 4 mini <a@3 b>
+mini/fast 1 mini a*2 b
+mini/fast-fraction 2 mini a*1.5
+mini/fast-group 1 mini [a b]*2
+mini/fast-pattern 2 mini a*<2 3>
+mini/fast-sequence 1 mini a*[1 2]
+mini/fast-zero 1 mini a*0 b
+mini/slow 2 mini a/2 b
+mini/slow-group 2 mini [a b c]/2
+mini/slow-alternate 4 mini <a b>/2
+mini/replicate 1 mini a!3 b
+mini/replicate-bare 1 mini a ! ! b
+mini/replicate-attached 1 mini a! b
+mini/weight 1 mini a@3 b
+mini/weight-fraction 1 mini a@1.5 b
+mini/elongate 1 mini a _ _ b
+mini/feet 1 mini a b . c d e
+mini/polymeter 2 mini {a b c, d e}
+mini/polymeter-steps 2 mini {a b c}%4
+mini/polymeter-steps-pattern 2 mini {a b c}%<2 4>
+mini/euclid 1 mini a(3,8)
+mini/euclid-rotate 1 mini a(3,8,2)
+mini/euclid-5-8 1 mini a(5,8)
+mini/euclid-negative 1 mini a(-3,8)
+mini/euclid-pattern 2 mini a(<3 5>,8)
+mini/euclid-group 1 mini [a b](3,8)
+mini/euclid-in-sequence 1 mini a(3,8) b
+mini/words 1 mini bd:3 sn:1 0.5 -2
+mini/dash-rest 1 mini a - b
+mini/dash-in-word 1 mini a-b c
+mini/feet-before-digit 1 mini a .5
+mini/mixed 2 mini [a*2 <b c>](3,8,<0 1>)
+mini/fragments 1 mini a/3 [b c]/2
+
+note/numbers 1 note 0 -2 1.5 -0.5
+note/names 1 note c e a4 cs df en c6 bf3
+note/rests 1 note a - -1 ~
+note/alternate 2 note <0 -12> 7
+
+expr/rev 1 expr rev "a b c"
+expr/rev-alternate 2 expr rev "a <b c>"
+expr/fast 1 expr fast 2 "a b"
+expr/fast-negative 1 expr fast (-2) "a b c"
+expr/fast-pattern 1 expr fast "1 2" "a b c"
+expr/slow 3 expr slow 3 "a b"
+expr/early 2 expr 0.25 <~ "a b"
+expr/late 2 expr 0.25 ~> "a b"
+expr/every 4 expr every 3 (fast 2) "a b"
+expr/every-zero 1 expr every 0 (fast 2) "a b"
+expr/cat 3 expr cat ["a b", "c"]
+expr/fastcat 2 expr fastcat ["a", "b c"]
+expr/stack 1 expr stack ["a b", "c"]
+expr/timecat 1 expr timeCat [(1, "a"), (2, "b c")]
+expr/compress 2 expr compress (0.25, 0.75) "a b"
+expr/euclid 1 expr euclid 3 8 "a"
+expr/euclid-off 1 expr euclidOff 3 8 2 "a"
