@@ -1,0 +1,6 @@
+build*/
+.DS_Store
+
+# Haskell build output, and the case list generate.py writes
+tools/tidal-oracle/dist-newstyle/
+tools/tidal-oracle/Cases.hs
